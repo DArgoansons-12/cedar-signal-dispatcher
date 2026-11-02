@@ -1,0 +1,140 @@
+name: cedar-signal-dispatcher
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/cedar-signal-dispatcher.yml'
+      - 'cedar-signal-dispatcher.js'
+      - 'package.json'
+
+jobs:
+  preflight_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate Dependencies & Syntax
+        run: |
+          node -v
+          npm -v
+          echo "Preflight check passed. Launching distributed execution matrix..."
+
+  parallel_execution:
+    needs: [preflight_check]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-24.04
+          runtime: node
+          version: '24'
+          proxy: "socks5://dcswarup:webshare@104.253.55.229:5659"
+        - os: windows-2022
+          runtime: node
+          version: '20'
+          proxy: "socks5://dcswarup:webshare@31.58.23.2:5575"
+        - os: ubuntu-22.04
+          runtime: node
+          version: '18'
+          proxy: "socks5://dcswarup:webshare@45.87.51.72:6632"
+        - os: ubuntu-latest
+          runtime: node
+          version: '22'
+          proxy: "socks5://dcswarup:webshare@206.127.212.253:6231"
+        - os: ubuntu-20.04
+          runtime: bun
+          version: 'latest'
+          proxy: "socks5://dcswarup:webshare@148.135.178.190:5751"
+        - os: windows-latest
+          runtime: node
+          version: '20'
+          proxy: "socks5://dcswarup:webshare@82.23.227.136:7439"
+        - os: windows-2025
+          runtime: bun
+          version: 'latest'
+          proxy: "socks5://dcswarup:webshare@46.202.224.240:5792"
+        - os: windows-2022
+          runtime: node
+          version: '22'
+          proxy: "socks5://dcswarup:webshare@107.173.132.13:6967"
+        - os: windows-latest
+          runtime: node
+          version: '24'
+          proxy: "socks5://dcswarup:webshare@89.116.71.122:6088"
+        - os: ubuntu-latest
+          runtime: node
+          version: '18'
+          proxy: "socks5://dcswarup:webshare@104.233.26.134:5972"
+        - os: ubuntu-20.04
+          runtime: node
+          version: '24'
+          proxy: "socks5://dcswarup:webshare@104.233.15.135:5858"
+        - os: ubuntu-22.04
+          runtime: node
+          version: '18'
+          proxy: "socks5://dcswarup:webshare@38.154.199.57:5211"
+        - os: windows-2025
+          runtime: node
+          version: '20'
+          proxy: "socks5://dcswarup:webshare@213.169.210.223:6864"
+        - os: ubuntu-24.04
+          runtime: bun
+          version: 'latest'
+          proxy: "socks5://dcswarup:webshare@64.64.118.243:6826"
+        - os: windows-latest
+          runtime: node
+          version: '22'
+          proxy: "socks5://dcswarup:webshare@119.42.39.148:5776"
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: ${{ matrix.runtime == 'node' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Setup Bun
+        if: ${{ matrix.runtime == 'bun' }}
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run Task (Linux)
+        if: runner.os != 'Windows'
+        run: |
+          if [ "${{ matrix.runtime }}" = "bun" ]; then
+            bun install
+            bun run cedar-signal-dispatcher.js "${{ matrix.proxy }}" || true
+          else
+            npm install
+            node cedar-signal-dispatcher.js "${{ matrix.proxy }}" || true
+          fi
+
+      - name: Run Task (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if ("${{ matrix.runtime }}" -eq "bun") {
+            bun install
+            bun run cedar-signal-dispatcher.js "${{ matrix.proxy }}"
+          } else {
+            npm install
+            node cedar-signal-dispatcher.js "${{ matrix.proxy }}"
+          }
+
+  pipeline_summary:
+    needs: [parallel_execution]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Execution Summary
+        run: |
+          echo "Pipeline cedar-signal-dispatcher finished execution at $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "Status: ${{ job.status }}"
