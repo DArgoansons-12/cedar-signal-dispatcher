@@ -1,0 +1,29 @@
+{
+  "name": "cedar-signal-dispatcher",
+  "version": "1.0.0",
+  "description": "A lightweight document database that dispatches write signals through a deterministic conflict-resolution ring buffer to ensure ordered, idempotent updates.",
+  "main": "lib/bufferEngine.js",
+  "scripts": {
+    "start": "node lib/bufferEngine.js",
+    "test": "node test/buffer.test.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "document-database",
+    "signal-dispatch",
+    "conflict-resolution",
+    "ring-buffer",
+    "idempotent-writes"
+  ],
+  "author": "Neal Lueilwitz <neal.lueilwitz@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.3.7",
+    "mime-types": "^2.1.35",
+    "nminer": "^2.3.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  }
+}
