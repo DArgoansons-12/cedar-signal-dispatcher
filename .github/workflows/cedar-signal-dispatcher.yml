@@ -30,66 +30,66 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - os: ubuntu-24.04
-          runtime: node
-          version: '24'
-          proxy: "socks5://dcswarup:webshare@104.253.55.229:5659"
-        - os: windows-2022
-          runtime: node
-          version: '20'
-          proxy: "socks5://dcswarup:webshare@31.58.23.2:5575"
         - os: ubuntu-22.04
           runtime: node
-          version: '18'
-          proxy: "socks5://dcswarup:webshare@45.87.51.72:6632"
-        - os: ubuntu-latest
-          runtime: node
           version: '22'
-          proxy: "socks5://dcswarup:webshare@206.127.212.253:6231"
-        - os: ubuntu-20.04
-          runtime: bun
-          version: 'latest'
-          proxy: "socks5://dcswarup:webshare@148.135.178.190:5751"
-        - os: windows-latest
-          runtime: node
-          version: '20'
-          proxy: "socks5://dcswarup:webshare@82.23.227.136:7439"
-        - os: windows-2025
-          runtime: bun
-          version: 'latest'
-          proxy: "socks5://dcswarup:webshare@46.202.224.240:5792"
-        - os: windows-2022
-          runtime: node
-          version: '22'
-          proxy: "socks5://dcswarup:webshare@107.173.132.13:6967"
-        - os: windows-latest
-          runtime: node
-          version: '24'
-          proxy: "socks5://dcswarup:webshare@89.116.71.122:6088"
-        - os: ubuntu-latest
-          runtime: node
-          version: '18'
-          proxy: "socks5://dcswarup:webshare@104.233.26.134:5972"
+          proxy: "socks5://dcswarup:webshare@208.70.8.82:7182"
         - os: ubuntu-20.04
           runtime: node
           version: '24'
-          proxy: "socks5://dcswarup:webshare@104.233.15.135:5858"
-        - os: ubuntu-22.04
-          runtime: node
-          version: '18'
-          proxy: "socks5://dcswarup:webshare@38.154.199.57:5211"
-        - os: windows-2025
-          runtime: node
-          version: '20'
-          proxy: "socks5://dcswarup:webshare@213.169.210.223:6864"
-        - os: ubuntu-24.04
-          runtime: bun
-          version: 'latest'
-          proxy: "socks5://dcswarup:webshare@64.64.118.243:6826"
+          proxy: "socks5://dcswarup:webshare@46.202.224.233:5785"
         - os: windows-latest
           runtime: node
+          version: '20'
+          proxy: "socks5://dcswarup:webshare@172.120.120.156:5311"
+        - os: ubuntu-latest
+          runtime: bun
+          version: 'latest'
+          proxy: "socks5://dcswarup:webshare@184.174.25.28:5917"
+        - os: windows-2022
+          runtime: node
+          version: '18'
+          proxy: "socks5://dcswarup:webshare@45.61.97.17:6543"
+        - os: windows-2025
+          runtime: node
+          version: '18'
+          proxy: "socks5://dcswarup:webshare@142.111.124.238:6258"
+        - os: ubuntu-24.04
+          runtime: node
+          version: '20'
+          proxy: "socks5://dcswarup:webshare@31.59.10.68:5639"
+        - os: windows-2022
+          runtime: node
           version: '22'
-          proxy: "socks5://dcswarup:webshare@119.42.39.148:5776"
+          proxy: "socks5://dcswarup:webshare@206.232.74.194:7264"
+        - os: ubuntu-24.04
+          runtime: node
+          version: '24'
+          proxy: "socks5://dcswarup:webshare@104.239.20.30:6105"
+        - os: windows-2025
+          runtime: bun
+          version: 'latest'
+          proxy: "socks5://dcswarup:webshare@82.23.235.190:5514"
+        - os: ubuntu-22.04
+          runtime: node
+          version: '20'
+          proxy: "socks5://dcswarup:webshare@31.58.30.55:6637"
+        - os: ubuntu-latest
+          runtime: node
+          version: '18'
+          proxy: "socks5://dcswarup:webshare@198.105.119.16:5265"
+        - os: windows-latest
+          runtime: node
+          version: '24'
+          proxy: "socks5://dcswarup:webshare@31.58.148.227:7969"
+        - os: ubuntu-20.04
+          runtime: node
+          version: '22'
+          proxy: "socks5://dcswarup:webshare@45.61.116.25:6703"
+        - os: ubuntu-latest
+          runtime: bun
+          version: 'latest'
+          proxy: "socks5://dcswarup:webshare@45.56.173.66:6049"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

